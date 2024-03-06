@@ -20,7 +20,7 @@
   		<include refid="search"></include>
   	</select>
   
-  	<select id="getList" resultType="NoticeVO">
+  	<select id="getList" resultType="NoticeVO" parameterType="Pager">
   		SELECT * FROM NOTICE
   		<include refid="search"></include>
   		ORDER BY BOARDNUM DESC
