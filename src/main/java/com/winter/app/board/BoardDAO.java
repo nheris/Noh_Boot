@@ -11,4 +11,7 @@ public interface BoardDAO {
 	
 	public int add(BoardVO boardVO) throws Exception;
 	
+	public int addFile(FileVO fileVO) throws Exception;
+	
+	public BoardVO getDetail(BoardVO boardVO) throws Exception;
 }

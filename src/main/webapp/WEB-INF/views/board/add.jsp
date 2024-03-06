@@ -64,9 +64,9 @@
 							</div>
 							
                             <div class="mb-3">
-                                <input type="file">
-                                <input type="file">
-                                <input type="file">
+                                <input type="file" name="attach">
+                                <input type="file" name="attach">
+                                <input type="file" name="attach">
                             </div>
 							<div class="mb-3">
 								<button class="btn btn-danger">작성</button>
