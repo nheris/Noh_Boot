@@ -4,11 +4,9 @@ import java.util.List;
 
 import com.winter.app.util.Pager;
 
-public interface BoardDAO {
-	//메서드명 = 매퍼 id, 리턴타입으로
-	public Long getTotalCount(Pager pager) throws Exception;
+public interface BoardService {
+	
 	public List<BoardVO> getList(Pager pager) throws Exception;
 	
 	public int add(BoardVO boardVO) throws Exception;
-	
 }

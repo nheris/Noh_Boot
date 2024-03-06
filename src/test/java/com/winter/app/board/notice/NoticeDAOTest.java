@@ -1,8 +1,6 @@
 package com.winter.app.board.notice;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.intThat;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.x509;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
@@ -11,8 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.winter.app.board.BoardVO;
+import com.winter.app.util.Pager;
+
+import lombok.extern.slf4j.Slf4j;
 
 @SpringBootTest
+@Slf4j
 class NoticeDAOTest {
 	
 	@Autowired
@@ -20,7 +22,17 @@ class NoticeDAOTest {
 	
 	@Test
 	void getListTest() throws Exception{
-		List<BoardVO> ar = noticeDAO.getList();
+		Pager pager = new Pager();
+		pager.setPage(1L);
+		pager.makeIndex();
+		
+		Long totalCount = noticeDAO.getTotalCount(pager);
+		pager.makeNum(totalCount);
+		
+		//info(STring)이라 {}안에 ,변수 들어감
+		log.info("Pager {}",pager);
+		
+		List<BoardVO> ar = noticeDAO.getList(pager);
 		assertEquals(10, ar.size());
 	}
 	
