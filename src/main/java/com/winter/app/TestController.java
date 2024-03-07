@@ -15,10 +15,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j //여기서 바로 로그찍을 수 있게 해줌, log변수 만들어짐
 public class TestController {
 	
-	@Autowired
-	private Subway subway;
-	@Autowired
-	private Bus bus;
+	/*
+	 * @Autowired private Subway subway;
+	 * 
+	 * @Autowired private Bus bus;
+	 */
 	
 	@GetMapping("/")
 	public String test() {
@@ -29,8 +30,9 @@ public class TestController {
 		 * log.trace("Trace message");
 		 */
 		
-		subway.getSubway(100);
-		bus.getBus();
+		/*
+		 * subway.getSubway(100); bus.getBus();
+		 */
 		
 		return "index";
 	}
