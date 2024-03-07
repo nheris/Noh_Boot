@@ -5,26 +5,75 @@
 <mapper namespace="com.winter.app.board.qna.QnaDAO">
 	
 	<sql id="search">
-		<where>
-			<choose>
-				<when test="kind == 'kind1'">BOARDTITLE</when>
-				<when test="kind == 'kind2'">BOARDCONTENTS</when>
-				<otherwise>BOARDWRITER</otherwise>
-			</choose>
-			LIKE CONCAT('%',#{search}, '%')
-		</where>
-	</sql>
+  		<where>
+  		<choose>
+  			<when test="kind=='kind1'">BOARDTITLE</when>
+  			<when test="kind=='kind2'">BOARDCONTENTS</when>
+  			<otherwise>BOARDWRITER</otherwise>
+  		</choose>  
+  		LIKE CONCAT('%', #{search}, '%')
+  		</where> 		
+  	</sql>
+
+  	<select id="getTotalCount" resultType="Long" parameterType="Pager">
+  		SELECT COUNT(BOARDNUM) FROM NOTICE
+
+  		<include refid="search"></include>
+
+  	</select>
+
+  	<select id="getList" resultType="QnaVO" parameterType="Pager">
+
+  		SELECT * FROM QNA 
+
+  		<include refid="search"></include>
+
+  		ORDER BY BOARDNUM DESC
+  		LIMIT #{startIndex}, #{perPage}
+  	</select>
+
+  	<select id="getDetail" parameterType="BoardVO" resultMap="getDetailResult">
+  		SELECT *
+  		FROM QNA Q
+  			 LEFT JOIn
+  			 QNAFILES QF
+  			 USING(BOARDNUM)
+  		WHERE BOARDNUM=#{boardNum}
+  	</select>
+
+  	<resultMap type="QnaVO" id="getDetailResult">
+  		<id column="BOARDNUM" property="boardNum"/>
+  		<result column="BOARDTITLE" property="boardTitle"/>
+  		<result column="BOARDWRITER" property="boardWriter"/>
+  		<result column="BOARDCONTENTS" property="boardContents"/>
+  		<result column="BOARDDATE" property="boardDate"/>
+  		<result column="BOARDHIT" property="boardHit"/>
+  		<result column="BOARDREF" property="boardRef"/>
+  		<result column="BOARDSTEP" property="boardStep"/>
+  		<result column="BOARDDEPTH" property="boardDepth"/>
+  		<collection property="fileVOs" javaType="List" ofType="FileVO">
+  			<id column="FILENUM" property="fileNum"/>
+  			<result column="FILENAME" property="fileName"/>
+  			<result column="ORINAME" property="oriName"/>
+  		</collection>
+  	</resultMap>
 	
-	<select id="getTotalCount">
-	
-	</select>
-	<select id="getList" parameterType="Pager" resultType="QnaVO" >
-		SELECT *
-		FROM QNA
-		<include refid="search"></include>
-		ORDER BY BOARDNUM DESE
-		LIMIT #{startIndex},#{perPage}
-	</select>
+	<!-- inseret 끝난다음에 boardNum에 넣음 -> 서비스 add에 ref를 업데이트 or PK생성하는 전문 table 생성NUM(AUTO_INCREMENT) -->
+  	<insert id="add" parameterType="BoardVO" useGeneratedKeys="true" keyProperty="boardNum">
+  		INSERT INTO NOTICE 
+  		(BOARDWRITER, BOARDTITLE, BOARDCONTENTS, BOARDDATE, BOARDHIT, BOARDREF, BOARDSTEP, BOARDEPTH)
+  		VALUES
+  		(#{boardWriter}, #{boardTitle}, #{boardContents}, now(), 0, 0, 0, 0)
+  	</insert>
+  	
+  	<update id="refUpdate" parameterType="BoardVO">
+  		UPDATE QNA SET BOARDREF=#{boardNum} WHERE BOARDNUM=#{boardNum}
+  	</update>
+
+  	<insert id="addFile" parameterType="FileVO">
+  		INSERT INTO NOTICEFILES
+  		VALUES (null, #{boardNum}, #{fileName}, #{oriName})
+  	</insert>
 
 
 

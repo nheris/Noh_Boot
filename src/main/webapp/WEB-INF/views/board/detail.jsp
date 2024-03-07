@@ -54,7 +54,8 @@
 						<div>
 							<c:forEach items="${vo.fileVOs}" var="file">
 								<!-- 5. 요청 시 App 외부 폴더의 파일 접근 -->
-								<a href="/files/${board}/${file.fileName}"> ${file.oriName}</a>
+								<%-- <a href="/files/${board}/${file.fileName}"> ${file.oriName}</a> --%>
+								<a href="/${board}/fileDown?fileNum=${file.fileNum}">${file.oriName}</a>
 							</c:forEach>
 						</div>
 						

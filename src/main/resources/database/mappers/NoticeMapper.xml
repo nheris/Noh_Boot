@@ -60,5 +60,8 @@
   		</collection>
   	</resultMap>
   	
+  	<select id="getFileDetail" parameterType="FileVO" resultType="FileVO">
+  		SELECT * FROM NOTICEFILES WHERE FILENUM=#{fileNum}
+  	</select>
   	
   </mapper>
