@@ -1,10 +1,12 @@
 package com.winter.app.board.notice;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.winter.app.board.BoardService;
@@ -17,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@Transactional(rollbackFor = Exception.class)//문제발생시 Exception 처리
 public class NoticeService implements BoardService{
 	@Autowired
 	private NoticeDAO noticeDAO;
@@ -51,7 +54,11 @@ public class NoticeService implements BoardService{
 			result = noticeDAO.addFile(fileVO);
 			
 			
-			log.warn("FileName :   {}", fileName);
+//			log.warn("FileName :   {}", fileName);
+			
+			if(result==0) {
+				throw new SQLException();
+			}
 		}
 		return result;
 	}
