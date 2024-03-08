@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,7 +43,12 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                        <h1 class="h3 mb-0 text-gray-800">
+                        				<!-- 프로퍼티스 키    http://localhost:81/?lang=en-->
+							<spring:message code="hello2" text="환영"></spring:message>
+							<!-- 해당 code 없으면 text으로 띄움 					{0}			{1}-->			
+							<%-- <spring:message code="welcome" arguments="${member.id},${member.name}" argumentSeperator="," text="환영"></spring:message> --%>
+						</h1>
                         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
                     </div>
