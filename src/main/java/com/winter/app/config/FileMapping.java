@@ -15,6 +15,7 @@ public class FileMapping implements WebMvcConfigurer{
 	private String filePath; //  D://upload/
 	
 	@Override
+	//외부자원으로 ??
 	//ResourceHandlerRegistry에 addResourceHandlers메서드를 이용해 어느 경로로 들어왔을때 매핑이 되어줄 것인지를 정의
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		//addResourceLocations 메서드를 이용하여 실제 파일이 있는 경로를 지정
