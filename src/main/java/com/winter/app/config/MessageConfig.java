@@ -28,7 +28,7 @@ public class MessageConfig implements WebMvcConfigurer {
 		
 		
 		//둘중하나
-		return resolver;
+		return cResolver;
 	}
 	
 	//Message Interceptor 객체 생성

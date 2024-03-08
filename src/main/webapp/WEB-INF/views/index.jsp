@@ -45,7 +45,7 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">
                         				<!-- 프로퍼티스 키    http://localhost:81/?lang=en-->
-							<spring:message code="hello2" text="환영"></spring:message>
+							<spring:message code="hello" text="환영?"></spring:message>
 							<!-- 해당 code 없으면 text으로 띄움 					{0}			{1}-->			
 							<%-- <spring:message code="welcome" arguments="${member.id},${member.name}" argumentSeperator="," text="환영"></spring:message> --%>
 						</h1>
