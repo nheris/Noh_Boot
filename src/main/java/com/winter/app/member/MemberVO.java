@@ -1,5 +1,8 @@
 package com.winter.app.member;
 
+import com.winter.app.member.group.MemberJoinGroup;
+import com.winter.app.member.group.MemberUpdateGroup;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -12,17 +15,21 @@ import lombok.ToString;
 @Getter
 @ToString
 public class MemberVO {
-	@NotBlank(message = "필수 입력")
+										//그룹 지정(Join,update시 검증)
+	@NotBlank(message = "필수 입력", groups = {MemberJoinGroup.class, MemberUpdateGroup.class})
 	private String username;
-	@NotBlank
-	@Size(min = 8, max = 16)
+	
+					//Join시만 검증
+	@NotBlank(groups = MemberJoinGroup.class)
+	@Size(min = 8, max = 16, groups = MemberJoinGroup.class)
 	private String password;
 	
 	private String passwordCheck;
 	
 	//@Pattern(regexp = "")정규표현식
 	private String phone;
-	@Email
+	
+	@Email(groups = {MemberJoinGroup.class, MemberUpdateGroup.class})
 	private String email;
 	
 	private String address;
