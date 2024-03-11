@@ -1,17 +1,41 @@
 package com.winter.app.member;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
-public class MemberService {
+@Slf4j
+public class MemberService implements UserDetailsService{
 	
 	@Autowired
 	private MemberDAO memberDAO;
 	
 	//add 검증 메서드 사용자 정의
 	//비번일치, id 중복 여부
+	
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		MemberVO memberVO = new MemberVO();
+		memberVO.setUsername(username);
+		
+		log.info("==========로그인 진행");
+		log.info("----------- {} -------", username);
+		
+		try {
+			memberVO= memberDAO.getDetail(memberVO);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return memberVO;
+	}
 	
 	public boolean checkMember(MemberVO memberVO, BindingResult bindingResult) throws Exception{
 		boolean check=false;

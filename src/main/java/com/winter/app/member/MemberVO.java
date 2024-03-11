@@ -1,5 +1,10 @@
 package com.winter.app.member;
 
+import java.util.Collection;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import com.winter.app.member.group.MemberJoinGroup;
 import com.winter.app.member.group.MemberUpdateGroup;
 
@@ -14,15 +19,46 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class MemberVO {
-										//그룹 지정(Join,update시 검증)
+								//Spring Security에서 제공하는 VO개념, Interface
+public class MemberVO implements UserDetails {
+										@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// 만효되지않음?
+		return true;
+	}
+
+	@Override			//잠겨져있지않음?
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override		//비번만료됨?
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override	//계정사용가능?
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	//그룹 지정(Join,update시 검증)
 	@NotBlank(message = "필수 입력", groups = {MemberJoinGroup.class, MemberUpdateGroup.class})
 	private String username;
 	
 					//Join시만 검증
 	@NotBlank(groups = MemberJoinGroup.class)
 	@Size(min = 8, max = 16, groups = MemberJoinGroup.class)
-	private String password;
+	private String password; 
 	
 	private String passwordCheck;
 	

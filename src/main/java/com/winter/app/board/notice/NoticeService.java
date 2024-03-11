@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-@Transactional(rollbackFor = Exception.class)//문제발생시 Exception 처리
+//@Transactional(rollbackFor = Exception.class)//문제발생시 Exception 처리
 public class NoticeService implements BoardService{
 	@Autowired
 	private NoticeDAO noticeDAO;

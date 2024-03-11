@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.winter.app.member.group.MemberJoinGroup;
 import com.winter.app.member.group.MemberUpdateGroup;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,6 +26,10 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
+	@GetMapping("login")
+	public String login(@ModelAttribute MemberVO memberVO) throws Exception {
+		return "member/login";
+	}
 	
 	@GetMapping("add")
 	public void add(@ModelAttribute MemberVO memberVO) throws Exception{
@@ -51,8 +56,8 @@ public class MemberController {
 	
 	@GetMapping("update")
 	public void update(Model model) throws Exception{
-		MemberVO memberVO = memberService.detail();
-		model.addAttribute("memberVO", memberVO);//속성명 생략시 변수명이 속성명 됨.근데 안될 때 있어 집어넣는게 안전
+//		MemberVO memberVO = memberService.detail();
+//		model.addAttribute("memberVO", memberVO);//속성명 생략시 변수명이 속성명 됨.근데 안될 때 있어 집어넣는게 안전
 		
 	}
 	@PostMapping("update")			//검증 										//검증결과 받는거 
