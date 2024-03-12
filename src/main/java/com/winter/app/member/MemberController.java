@@ -99,5 +99,7 @@ public class MemberController {
 		//세선받거나 SecurityContextHolder 이용
 		SecurityContext context = SecurityContextHolder.getContext();
 		name = context.getAuthentication().getName();
+		
+		
 	}	
 }

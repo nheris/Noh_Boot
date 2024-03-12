@@ -24,6 +24,9 @@ import lombok.ToString;
 								//Spring Security에서 제공하는 VO개념, Interface
 public class MemberVO implements UserDetails {
 	
+	//그룹 지정(Join,update시 검증)
+	@NotBlank(message = "필수 입력", groups = {MemberJoinGroup.class, MemberUpdateGroup.class})
+	private String username;
 					//Join시만 검증
 	@NotBlank(groups = MemberJoinGroup.class)
 	@Size(min = 8, max = 16, groups = MemberJoinGroup.class)
@@ -41,6 +44,7 @@ public class MemberVO implements UserDetails {
 	
 	private String name;
 	
+	
 	/* DB에서 조회시 사용자 권한을 담을 List */
 	private List<RoleVO> roleVOs;
 	
@@ -57,31 +61,30 @@ public class MemberVO implements UserDetails {
 		return authorities;
 	}
 	
-	@Override
-	public boolean isAccountNonExpired() {
-		// 만효되지않음?
-		return true;
-	}
+//	@Override
+//	public boolean isAccountNonExpired() {
+//		// 만효되지않음?
+//		return true;
+//	}
+//	
+//	@Override			//잠겨져있지않음?
+//	public boolean isAccountNonLocked() {
+//		return true;
+//	}
+//	
+//	@Override		//비번만료됨?
+//	public boolean isCredentialsNonExpired() {
+//		return true;
+//	}
+//	
+//	@Override	//계정사용가능?
+//	public boolean isEnabled() {
+//		return true;
+//	}
 	
-	@Override			//잠겨져있지않음?
-	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
-		return true;
-	}
+	private boolean accountNonExpired;
+    private boolean accountNonLocked;
+    private boolean credentialsNonExpired;
+    private boolean enabled;
 	
-	@Override		//비번만료됨?
-	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-	
-	@Override	//계정사용가능?
-	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-	
-	//그룹 지정(Join,update시 검증)
-	@NotBlank(message = "필수 입력", groups = {MemberJoinGroup.class, MemberUpdateGroup.class})
-	private String username;
 }
