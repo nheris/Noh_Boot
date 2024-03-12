@@ -14,28 +14,32 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 @Configuration // xml설정파일이당
 public class MessageConfig implements WebMvcConfigurer {
 	
+	// 1. Cookie또는 Session 사용 결정 (언어 구분 방법)
 	@Bean //객체만듦(xml대신) 뭐쓸건지(resolver)  빈에 등록
-	LocaleResolver localeResolver() {
-		//session
+	LocaleResolver localeResolver() { //method명은 꼭 localeResolver로 
+		//1) session
 		SessionLocaleResolver resolver = new SessionLocaleResolver();
 		resolver.setDefaultLocale(Locale.KOREAN); //첨시작할때 지역 뭐로 설정?
 		
-		//cookie
+		//2) cookie
 		CookieLocaleResolver cResolver = new CookieLocaleResolver();
 		cResolver.setDefaultLocale(Locale.KOREAN);
 		//쿠키형식 (키 밸루) 키 뭘로 쓸건지 설정
 		//cResolver.setCookieName("lang"); //deprecated
 		
 		
-		//둘중하나
+		//session, cookie 둘 중 하나
 		return cResolver;
 	}
 	
-	//Message Interceptor 객체 생성
-	@Bean //첫글자 소문자 빈이름 @Bean("")->이름 지정
+	// 2. Message Interceptor 객체 생성
+	@Bean //첫글자 소문자 빈이름. @Bean("")->이름 지정
+	//LocaleChangeInterceptor : 로케일을 변경하는 별도의 컨트롤러 클래스를 구현할 필요 없이 메시지를 해당 언어로 변경 가능
 	LocaleChangeInterceptor changeInterceptor() {
 		LocaleChangeInterceptor changeInterceptor = new LocaleChangeInterceptor();
 		changeInterceptor.setParamName("lang");
+		//parameter를 받아서 언어 구분
+		//url?lang=en
 		
 		return changeInterceptor;
 	}
