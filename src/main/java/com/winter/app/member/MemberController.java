@@ -1,11 +1,15 @@
 package com.winter.app.member;
 
+import java.util.Enumeration;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.EscapedErrors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +19,6 @@ import com.winter.app.member.group.MemberJoinGroup;
 import com.winter.app.member.group.MemberUpdateGroup;
 
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -69,4 +72,32 @@ public class MemberController {
 		return "redirect:../";
 	}
 	
+	@GetMapping("page")
+	public void page(HttpSession session) throws Exception{
+		//로그인 한 사용자정보 조회 
+		//속성명 알아오기 Attribute name
+		//Session 이용
+		//이터레이트??전버전??
+		Enumeration<String> en = session.getAttributeNames();
+	
+		while(en.hasMoreElements()) {
+					//========= attribute SPRING_SECURITY_CONTEXT
+			log.info("========= attribute {}", en.nextElement());
+		}
+		
+		Object obj = session.getAttribute("SPRING_SECURITY_CONTEXT");
+		log.info("=== obj {}", obj);
+		
+		//impl implement?
+		SecurityContextImpl contextImpl = (SecurityContextImpl) obj;
+		String name = contextImpl.getAuthentication().getName();
+		MemberVO memberVO = (MemberVO)contextImpl.getAuthentication().getPrincipal();
+		
+		log.info("=== Name {}", name);
+		log.info("=== MemberVO {}", memberVO);
+		
+		//세선받거나 SecurityContextHolder 이용
+		SecurityContext context = SecurityContextHolder.getContext();
+		name = context.getAuthentication().getName();
+	}	
 }

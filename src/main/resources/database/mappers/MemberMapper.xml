@@ -3,10 +3,28 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.winter.app.member.MemberDAO">
-	<select id="getDetail" parameterType="MemberVO" resultType="MemberVO">
-		SELECT * FROM MEMBER
+	<select id="getDetail" parameterType="MemberVO" resultMap="getResultDetail">
+		SELECT * 
+		FROM MEMBER M
+			 INNER JOIN
+			 MEMBERROLE MR
+			 USING (USERNAME)
+			 INNER JOIN
+			 ROLE R
+			 USING (ROLENUM)
 		WHERE USERNAME=#{username}
 	</select>
+	<resultMap type="MemberVO" id="getResultDetail">
+		<id column="USERNAME" property="username"/>
+		<result column="PASSWORD" property="password"/>
+		<result column="PHONE" property="phone"/>
+		<result column="EMAIL" property="email"/>
+		<result column="NAME" property="name"/>
+		<result column="ADDRESS" property="address"/>
+		<collection property="roleVOs" javaType="List" ofType="RoleVO">
+			<result column="ROLENAME" property="roleName"/>
+		</collection>
+	</resultMap>
 
 	<insert id="add" parameterType="MemberVO">
 		INSERT INTO MEMBER
@@ -17,5 +35,11 @@
 		UPDATE MEMBER SET PASSWORD=#{password}
 		WHERE USERNAME=#{username}
 	</update>
-
+	
+	<insert id="addMemberRole" parameterType="MemberVO">
+										<!-- usernamea만 있음,map 써도됨 -->
+	INSERT INTO MEMBERROLE (USERNAME, ROLENUM)
+	VALUES (#{username}, 3)
+	
+	</insert>
 </mapper>

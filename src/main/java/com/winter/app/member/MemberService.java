@@ -1,21 +1,27 @@
 package com.winter.app.member;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@Transactional(rollbackFor = Exception.class) //트랜잭션 처리
 public class MemberService implements UserDetailsService{
 	
 	@Autowired
 	private MemberDAO memberDAO;
-	
+	@Autowired
+	//@Qualifier("ps")//빈이름 ps인거 
+	private PasswordEncoder passwordEncoder;
 	//add 검증 메서드 사용자 정의
 	//비번일치, id 중복 여부
 	
@@ -63,7 +69,13 @@ public class MemberService implements UserDetailsService{
 	}
 	
 	public int add(MemberVO memberVO)throws Exception{
-		return memberDAO.add(memberVO);
+		//평문 password 암호화
+		memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
+		int result = memberDAO.add(memberVO);
+		
+		//회원의 Role 정보 저장
+		result = memberDAO.addMemberRole(memberVO);
+		return result;
 	}
 	
 	//삭제할 메서드

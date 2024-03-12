@@ -39,6 +39,7 @@ public class SecurityConfig {
 				(authorizeHttpRequests) -> authorizeHttpRequests
 											.requestMatchers("/").permitAll()//누구나 들어올수있게
 											.requestMatchers("/member/add").permitAll()
+											.requestMatchers("/member/page", "/member/logout").authenticated()
 											.requestMatchers("/notice/list").authenticated()//로그인한사람만 들어감
 											.requestMatchers("/notice/add", "/notice/delete").hasRole("ADMIN")//관리자만
 											.requestMatchers("/notice/update").hasAnyRole("ADMIN", "MANAGER")

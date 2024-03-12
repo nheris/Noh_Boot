@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -47,7 +48,11 @@
                         				<!-- 프로퍼티스 키    http://localhost:81/?lang=en-->
 							<spring:message code="hello" text="환영?"></spring:message>
 							<!-- 해당 code 없으면 text으로 띄움 		프로퍼티스의		{0}			{1}-->			
-							<spring:message code="welcome" arguments="${member.username},${member.email}" argumentSeparator="," text="환영"></spring:message>
+							<%-- <spring:message code="welcome" arguments="${member.username},${member.email}" argumentSeparator="," text="환영"></spring:message> --%>
+							<sec:authorize access="isAuthenticated()"><!-- 로그인되어있을때만 보이게 -->
+								<sec:authentication property="principal" var="memberVO"/>
+								<spring:message code="welcome" arguments="${memberVO.username},${memberVO.email}" argumentSeparator="," text="환영"></spring:message>
+							</sec:authorize>
 						</h1>
                         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>

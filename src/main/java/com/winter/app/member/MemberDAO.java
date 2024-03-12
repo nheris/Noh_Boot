@@ -9,4 +9,6 @@ public interface MemberDAO {	//MemberDAO를 MemberMapper라고 하기도 함
 	public int add(MemberVO memberVO)throws Exception;
 	
 	public int update(MemberVO memberVO)throws Exception;
+	
+	public int addMemberRole (MemberVO memberVO)throws Exception;
 }
