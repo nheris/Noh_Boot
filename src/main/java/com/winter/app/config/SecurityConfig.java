@@ -87,7 +87,7 @@ public class SecurityConfig {
 						.userDetailsService(memberService)//인증 절차를 진행할 UserDetailService, 필수
 						.authenticationSuccessHandler(handler) //Login이 성공했을 때 실행할 Handler
 						//.userSecureCookie(false)
-		//로그아웃안하고 창나갔다가 다시 들어왔을때 로그인 되어있는지 확인
+		//로그아웃안하고 창나갔다가 다시 들어왔을때 로그인 되어있는지 확인	// JSESSIONID가 만료되도 rememberMe를 체크하면 로그인 유지
 				
 		)					//변수명 그냥 s로 해도됨
 		.sessionManagement((sessionManagement)->sessionManagement
