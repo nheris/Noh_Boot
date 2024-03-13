@@ -69,45 +69,48 @@
 						                                    <div class="text-center">
 						                                        <h1 class="h4 text-gray-900 mb-4">Member Join!</h1>
 						                                    </div>
+																					<!-- Controller에서 Model에 추가한 Bean의 속성명 -->
 						                                    <form:form cssClass="user" modelAttribute="memberVO">
 						                                        <div class="form-group">
+																				<!-- name랑 비슷 -->
 						                                            <form:input path="username"  cssClass="form-control form-control-user"
-						                                                id="username"></form:input>
-						                                             <form:errors path="username"></form:errors>   
+						                                                id="username" placeholder="ID"></form:input>
+																		<!-- Back-end에서 검증에 위반 되었을 경우 에러메세지 출력  -->
+						                                            <form:errors path="username"></form:errors>   
 						                                        </div>
 						                                        <div class="form-group">
 						                                            <form:password path="password" cssClass="form-control form-control-user"
-						                                                id="password" ></form:password>
+						                                                id="password" placeholder="PW"></form:password>
 						                                            <form:errors path="password"></form:errors>    
 																	
 						                                        </div>
 						                                        <div class="form-group">
 						                                            <form:password path="passwordCheck" cssClass="form-control form-control-user"
-						                                                id="passwordCheck" ></form:password>
+						                                                id="passwordCheck" placeholder="PW Check"></form:password>
 						                                            <form:errors path="passwordCheck"></form:errors>
 																	
 						                                        </div>
 
 						                                        <div class="form-group">
 						                                            <form:input path="phone" cssClass="form-control form-control-user"
-						                                                id="phone" ></form:input>
+						                                                id="phone" placeholder="phone"></form:input>
 						                                            <form:errors path="phone"></form:errors>
 																	
 						                                        </div>
 																<div class="form-group">
 						                                            <form:input path="email" cssClass="form-control form-control-user"
-						                                                id="email" ></form:input>
+						                                                id="email" placeholder="email"></form:input>
 						                                            <form:errors path="email"></form:errors>    
 						                                        </div>
 																<div class="form-group">
 						                                            <form:input path="address" cssClass="form-control form-control-user"
-						                                                id="address" ></form:input>
+						                                                id="address" placeholder="address"></form:input>
 						                                            <form:errors path="address"></form:errors>
 																	
 						                                        </div>						
 																<div class="form-group">
 						                                            <form:input path="name" cssClass="form-control form-control-user"
-						                                                id="name" ></form:input>
+						                                                id="name" placeholder="name"></form:input>
 						                                            <form:errors path="name"></form:errors>    
 																	
 						                                        </div>										

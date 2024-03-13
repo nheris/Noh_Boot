@@ -52,15 +52,20 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	
+	
 	@GetMapping("add")
 	public void add(@ModelAttribute MemberVO memberVO) throws Exception{
-		
+		//Spring Form : JSP로 이동 전 Controller에서 Data가 없는 빈 VO객체를 Model 담아서 전송
+		//MemberVO memberVO = new MemberVO();
 		//model.addAttribute("memberVO",memberVO) 랑 같음
 		
 	}
-	@PostMapping("add")	//검증할 그룹명 지정	//검증하고 컨트롤러들어옴(@Valid)		//검증 된걸 담음???못들음
+	@PostMapping("add")	//검증할 그룹명 지정	//검증하고 컨트롤러들어옴(@Valid)		//검증 된걸 담음(오류보관 객체, 없을 시 404,컨트롤러 호출x)
 	public String add(@Validated(MemberJoinGroup.class) MemberVO memberVO, BindingResult bindingResult,Model model) throws Exception{
 		//log.info("Member Add");
+		
+		//log.info("error : {}",bindingResult);
 		
 		boolean check = memberService.checkMember(memberVO, bindingResult);
 		if(check) {
@@ -74,6 +79,9 @@ public class MemberController {
 		//service로 보냄
 		return "commons/result";
 	}
+	
+	
+	
 	
 	@GetMapping("update")
 	public void update(Model model) throws Exception{

@@ -30,28 +30,10 @@ public class MemberService extends DefaultOAuth2UserService implements UserDetai
 	@Autowired
 	//@Qualifier("ps")//빈이름 ps인거 
 	private PasswordEncoder passwordEncoder;
+	
+	
 	//add 검증 메서드 사용자 정의
 	//비번일치, id 중복 여부
-	
-	//UserDetailService
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		MemberVO memberVO = new MemberVO();
-		memberVO.setUsername(username);
-		
-		log.info("==========로그인 진행");
-		log.info("----------- {} -------", username);
-		
-		try {
-			memberVO= memberDAO.getDetail(memberVO);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return memberVO;
-	}
-	
 	public boolean checkMember(MemberVO memberVO, BindingResult bindingResult) throws Exception{
 		boolean check=false;
 		//check 가 true 라면 에러가 있다.
@@ -62,7 +44,8 @@ public class MemberService extends DefaultOAuth2UserService implements UserDetai
 		
 		//비번 검증
 		if(!memberVO.getPassword().equals(memberVO.getPasswordCheck())){
-			check=true;
+			check=true;					//[필드,변수 명]    [에러 코드]    [메세지 내용]
+			//bindingResult.rejectValue("멤버변수명(path)", "properties의key(코드)");
 			bindingResult.rejectValue("passwordCheck", "memberVO.password.equals");
 		}
 		//id중복
@@ -95,6 +78,28 @@ public class MemberService extends DefaultOAuth2UserService implements UserDetai
 		
 		return memberDAO.getDetail(memberVO);
 	}
+	
+	
+	
+	//UserDetailService
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		MemberVO memberVO = new MemberVO();
+		memberVO.setUsername(username);
+		
+		log.info("==========로그인 진행");
+		log.info("----------- {} -------", username);
+		
+		try {
+			memberVO= memberDAO.getDetail(memberVO);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return memberVO;
+	}
+	
 	
 	//DefaultOAuth2UserService
 	@Override
