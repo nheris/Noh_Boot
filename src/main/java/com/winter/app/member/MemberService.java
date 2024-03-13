@@ -1,11 +1,19 @@
 package com.winter.app.member;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -15,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @Transactional(rollbackFor = Exception.class) //트랜잭션 처리
-public class MemberService implements UserDetailsService{
+public class MemberService extends DefaultOAuth2UserService implements UserDetailsService{
 	
 	@Autowired
 	private MemberDAO memberDAO;
@@ -25,6 +33,7 @@ public class MemberService implements UserDetailsService{
 	//add 검증 메서드 사용자 정의
 	//비번일치, id 중복 여부
 	
+	//UserDetailService
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		MemberVO memberVO = new MemberVO();
@@ -86,4 +95,47 @@ public class MemberService implements UserDetailsService{
 		
 		return memberDAO.getDetail(memberVO);
 	}
+	
+	//DefaultOAuth2UserService
+	@Override
+	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+		log.info("kakao =====> {}", userRequest);//org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest@20f1aa
+		
+		ClientRegistration c = userRequest.getClientRegistration();
+		
+		log.info("ClientId =====> {}",c.getClientId());	//eef~
+		log.info("ClientName =====> {}",c.getClientName()); //Kakao
+		
+		OAuth2User user = super.loadUser(userRequest);
+		log.info("@@@ {}", user); //
+		log.info("@@@ {}", user.getName()); //
+		log.info("@@@ {}", user.getAuthorities()); //[OAUTH2_USER, SCOPE_profile_image, SCOPE_profile_nickname]
+		
+		log.info("Property : {}", user.getAttribute("properties").toString());
+		
+		if(c.getClientName().equals("Kakao")) {
+			user = this.kakao(user);
+			
+		}
+		
+		return user; 
+	}
+	
+	private OAuth2User kakao(OAuth2User oAuth2User) {
+		Map<String,Object> map = oAuth2User.getAttribute("properties");
+		MemberVO memberVO = new MemberVO();
+		memberVO.setUsername(oAuth2User.getName());
+		memberVO.setName(map.get("nickname").toString());
+		memberVO.setAttributes(oAuth2User.getAttributes());
+		
+		List<RoleVO> list = new ArrayList<>();
+		RoleVO roleVO = new RoleVO();
+		roleVO.setRoleName("ROLE_MEMBER");//지금은 걍 집어넣음. 나중엔 디비에 멤버롤 넣기
+		list.add(roleVO);
+		
+		memberVO.setRoleVOs(list);
+		
+		return memberVO;
+	}
+	
 }

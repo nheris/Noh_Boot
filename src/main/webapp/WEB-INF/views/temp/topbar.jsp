@@ -61,6 +61,12 @@
 				<i class="fas fa-sign-in-alt" ></i> Login
 			</a>
 		</li>
+		<li class="nav-item mx-1">
+			<a href="/oauth2/authorization/kakao">
+				Kakao Login
+			</a>
+		</li>
+		
 	</sec:authorize>
 
 <!-- 로그인 전 보이는 구간 끝 -->

@@ -3,10 +3,12 @@ package com.winter.app.member;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.winter.app.member.group.MemberJoinGroup;
 import com.winter.app.member.group.MemberUpdateGroup;
@@ -22,7 +24,7 @@ import lombok.ToString;
 @Getter
 @ToString
 								//Spring Security에서 제공하는 VO개념, Interface
-public class MemberVO implements UserDetails {
+public class MemberVO implements UserDetails, OAuth2User{
 	
 	//그룹 지정(Join,update시 검증)
 	@NotBlank(message = "필수 입력", groups = {MemberJoinGroup.class, MemberUpdateGroup.class})
@@ -86,5 +88,14 @@ public class MemberVO implements UserDetails {
     private boolean accountNonLocked;
     private boolean credentialsNonExpired;
     private boolean enabled;
+    
+    private String social;//naver,kakao, goole
+    private Map<String, Object> attributes;//변수명 꼭 attributes로
+    
+    
+    @Override
+    public Map<String, Object> getAttributes() {
+    	return this.attributes; 
+    }
 	
 }
