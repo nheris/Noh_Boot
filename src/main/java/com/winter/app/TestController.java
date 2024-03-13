@@ -2,10 +2,11 @@ package com.winter.app;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 //@RestController
@@ -26,6 +27,15 @@ public class TestController {
 		
 		
 		return "index";
+	}
+	
+	@GetMapping("/expired")
+	public String expired(Model model) {
+		model.addAttribute("result", "로그아웃되었습니다.");
+		model.addAttribute("path", "/");
+		
+		
+		return "commons/result";
 	}
 	
 }
