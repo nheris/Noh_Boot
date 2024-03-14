@@ -83,7 +83,7 @@ public class SecurityConfig {
 						//.logoutUrl("/member/logout")//어떤 url발생시 로그아웃
 						.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
 						.logoutSuccessUrl("/") //성공했을때 어디로 갈건지
-						.logoutSuccessHandler(null)//로그아웃 성공시 추가작업
+						//.logoutSuccessHandler(null)//로그아웃 성공시 추가작업
 						.invalidateHttpSession(true)//로그아웃시 session만료
 						.permitAll()
 		)
