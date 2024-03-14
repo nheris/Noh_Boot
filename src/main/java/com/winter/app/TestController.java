@@ -6,6 +6,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.winter.app.lambda.TestInterface;
+import com.winter.app.member.MemberVO;
+
+import io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue.Supplier;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,6 +22,29 @@ public class TestController {
 	
 	@GetMapping("/")
 	public String test() {
+		
+		//람다는 JS와 비슷 funtion(){} : () -> {}
+		//JAVA ()->{}
+		
+		//인터페이스 타입으론 선언가능
+		TestInterface ti = (int a, int b)-> a+b;
+		
+		Supplier<MemberVO> s = ()-> new MemberVO();//꺼내고 싶은 인터페이스 있을 때
+		MemberVO memberVO = s.get();
+		
+		
+		System.out.println(ti.t1(3, 2));
+		//System.out.println(ti.t1(3, 2));
+		
+//		TestInterface t2 = new TestInterface() {
+//			
+//			@Override
+//			public int t1(int n1, int n2) {
+//				return 0;
+//			}
+//		};
+		
+		
 		//trace, debug, info, warn, error 젤 윗단계 
 		/*
 		 * log.error("Error message"); log.warn("warn message");
