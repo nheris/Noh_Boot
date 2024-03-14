@@ -1,6 +1,7 @@
 package com.winter.app.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,7 +16,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.winter.app.member.MemberService;
 
 @Configuration //xml파일이당
-@EnableWebSecurity //기본말고 내걸쓰겟당
+@EnableWebSecurity //기본말고 내걸쓰겟당 나의보안 적용
+//@EnableWebSecurity(debug=true)//디버깅모드 보는거?
 public class SecurityConfig {
 	
 	@Autowired
@@ -25,10 +27,14 @@ public class SecurityConfig {
 	@Autowired
 	private MemberService memberService;
 	
+	@Value("${security.debugMode}")
+	private boolean debugMode;
+	
 	//지정자 디폴트로
 	@Bean
 	WebSecurityCustomizer webSecurityCustomizer() {
 		return web -> web
+				.debug(debugMode) //내가 쓰는 필터 보는거?
 				.ignoring()	//시큐리티 거치지말고 통과
 				.requestMatchers("/css/**")
 				.requestMatchers("/js/**")
@@ -77,6 +83,7 @@ public class SecurityConfig {
 						//.logoutUrl("/member/logout")//어떤 url발생시 로그아웃
 						.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
 						.logoutSuccessUrl("/") //성공했을때 어디로 갈건지
+						.logoutSuccessHandler(null)//로그아웃 성공시 추가작업
 						.invalidateHttpSession(true)//로그아웃시 session만료
 						.permitAll()
 		)
