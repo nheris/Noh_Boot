@@ -123,6 +123,8 @@ public class MemberService extends DefaultOAuth2UserService implements UserDetai
 			
 		}
 		
+		((MemberVO)user).setSocial(c.getClientName());
+		
 		return user; 
 	}
 	

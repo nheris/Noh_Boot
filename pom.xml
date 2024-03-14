@@ -18,7 +18,10 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
-		
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
 		<!--Social Login API 추가-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
