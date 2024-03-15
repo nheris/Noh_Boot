@@ -1,15 +1,19 @@
 package com.winter.app.board.notice;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.winter.app.board.BoardVO;
@@ -17,11 +21,10 @@ import com.winter.app.board.FileVO;
 import com.winter.app.util.Pager;
 
 import jakarta.servlet.http.HttpSession;
-import jakarta.websocket.Session;
 import lombok.extern.slf4j.Slf4j;
 
 
-@Controller
+@RestController
 @RequestMapping("/notice/*")
 @Slf4j
 public class NoticeController {
@@ -35,15 +38,23 @@ public class NoticeController {
 		return this.name;
 	}
 	
-	@GetMapping("list")
-	public String gerList(Pager pager, Model model) throws Exception{
+	@GetMapping("list/{page}")
+	@CrossOrigin
+	public Map<String, Object> gerList(@PathVariable Long page) throws Exception{
 		log.info("================{}================",name);
+		Pager pager = new Pager();
+		pager.setPage(page);
 		
 		List<BoardVO> ar = noticeService.getList(pager);
-		model.addAttribute("list", ar);
-		model.addAttribute("pager", pager);
 		
-		return "board/list";
+		log.info("Page : {}", pager.getStartIndex());
+		log.info("Page : {}", pager.getPerPage());
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("list", ar);
+		map.put("pager", pager);
+		
+		return map;
 	}
 	
 	@GetMapping("add")

@@ -81,7 +81,7 @@ public class Pager {
 		//1 0 
 		//2 10
 		//3 20
-		this.startIndex= (this.getPage()-1)*this.getPage();
+		this.startIndex= (this.getPage()-1)*this.getPerPage();
 		
 	}
 	

@@ -24,7 +24,7 @@ import lombok.ToString;
 @Getter
 @ToString
 								//Spring Security에서 제공하는 VO개념, Interface
-public class MemberVO implements UserDetails, OAuth2User{
+public class MemberVO implements UserDetails{//, OAuth2User{
 	
 	
 	@NotBlank(message = "필수 입력", groups = {MemberJoinGroup.class, MemberUpdateGroup.class})//그룹 지정(Join,update시 검증)

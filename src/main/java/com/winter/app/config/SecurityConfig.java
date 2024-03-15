@@ -15,8 +15,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.winter.app.member.MemberService;
 
-@Configuration //xml파일이당
-@EnableWebSecurity //기본말고 내걸쓰겟당 나의보안 적용
+//@Configuration //xml파일이당
+//@EnableWebSecurity //기본말고 내걸쓰겟당 나의보안 적용
 //@EnableWebSecurity(debug=true)//디버깅모드 보는거?
 public class SecurityConfig {
 	
