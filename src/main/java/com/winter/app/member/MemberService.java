@@ -114,12 +114,13 @@ public class MemberService extends DefaultOAuth2UserService implements UserDetai
 		log.info("ClientId =====> {}",c.getClientId());	//eef~
 		log.info("ClientName =====> {}",c.getClientName()); //Kakao
 		
+		// accessToken으로 서드파티에 요청해서 사용자 정보를 얻어옴
 		OAuth2User user = super.loadUser(userRequest);
 		log.info("@@@ {}", user); //Name: [3394341768], Granted Authorities: [[OAUTH2_USER, SCOPE_profile_nickname]], User Attributes: [{id=33...
 		log.info("@@@ {}", user.getName()); //3394341768
 		log.info("@@@ {}", user.getAuthorities()); //[OAUTH2_USER, SCOPE_profile_image, SCOPE_profile_nickname]
 		
-		log.info("Property : {}", user.getAttribute("properties").toString()); //nickname=블프
+		log.info("Property : {}", user.getAttribute("properties").toString()); //nickname=블루
 		
 		if(c.getClientName().equals("Kakao")) {
 			user = this.kakao(user);
