@@ -104,19 +104,23 @@ public class MemberService extends DefaultOAuth2UserService implements UserDetai
 	//DefaultOAuth2UserService
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+		// OAuth2UserService에서 request으로 user 정보를 얻어온다.
+		
 		log.info("kakao =====> {}", userRequest);//org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest@20f1aa
 		
+		// 로그인 진행중인 서비스 구분( google인지 Kakao인지 Naver인지 구분하는 코드 )
 		ClientRegistration c = userRequest.getClientRegistration();
 		
 		log.info("ClientId =====> {}",c.getClientId());	//eef~
 		log.info("ClientName =====> {}",c.getClientName()); //Kakao
 		
+		// accessToken으로 서드파티에 요청해서 사용자 정보를 얻어옴
 		OAuth2User user = super.loadUser(userRequest);
-		log.info("@@@ {}", user); //
-		log.info("@@@ {}", user.getName()); //
+		log.info("@@@ {}", user); //Name: [3394341768], Granted Authorities: [[OAUTH2_USER, SCOPE_profile_nickname]], User Attributes: [{id=33...
+		log.info("@@@ {}", user.getName()); //3394341768
 		log.info("@@@ {}", user.getAuthorities()); //[OAUTH2_USER, SCOPE_profile_image, SCOPE_profile_nickname]
 		
-		log.info("Property : {}", user.getAttribute("properties").toString());
+		log.info("Property : {}", user.getAttribute("properties").toString()); //nickname=블루
 		
 		if(c.getClientName().equals("Kakao")) {
 			user = this.kakao(user);

@@ -106,7 +106,7 @@ public class SecurityConfig {
 						.expiredUrl("/expired")         //세션이 만료되었을 경우 리다이렉트 할 페이지
 		//동시접속 해보기..안되네...
 		)
-		.oauth2Login((oauth2Login)->oauth2Login
+		.oauth2Login((oauth2Login)->oauth2Login ////oauth2Login에 성공하면 memberService에서 설정을 진행하겠다라는 의미
 						.userInfoEndpoint((ue)->ue.userService(memberService))	
 		)
 		
