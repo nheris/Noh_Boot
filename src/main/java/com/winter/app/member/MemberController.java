@@ -126,6 +126,7 @@ public class MemberController {
 		SecurityContext context = SecurityContextHolder.getContext();
 		name = context.getAuthentication().getName();
 		
+		//DB 조회
 		
 	}	
 }

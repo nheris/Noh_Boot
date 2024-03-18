@@ -23,7 +23,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-								//Spring Security에서 제공하는 VO개념, Interface
+								//Spring Security에서 제공하는 VO개념, 사용자의 정보를 담는 Interface
 public class MemberVO implements UserDetails, OAuth2User{
 	
 	
@@ -58,7 +58,7 @@ public class MemberVO implements UserDetails, OAuth2User{
 	/* DB에서 조회시 사용자 권한을 담을 List */
 	private List<RoleVO> roleVOs;
 	
-	@Override// 검증할떄 메서드 실행? 	//
+	@Override// 검증할떄 메서드 실행? 	//계정이 가지고 있는 권한 목록 리턴
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		/* 사용자 권한을 Security에서 사용 할 수 있도록 변환 */
 		List<GrantedAuthority> authorities = new ArrayList<>();
